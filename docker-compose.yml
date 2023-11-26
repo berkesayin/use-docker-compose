@@ -1,0 +1,43 @@
+version: "3"
+services:
+  drupal:
+    image: bitnami/drupal:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - drupal_data:/bitnami/drupal
+    depends_on: -db
+    environment:
+      - MARIADB_HOST=db
+      - MARIADB_PORT_NUMBER=3306
+      - DRUPAL_DATABASE_USER=bn_drupal
+      - DRUPAL_DATABASE_PASSWORD=bitnami
+      - DRUPAL_DATABASE_NAME=bitnami_drupal
+      - DRUPAL_USERNAME=admin
+      - DRUPAL_PASSWORD=bitnami
+      - DRUPAL_EMAIL=sayinberke34@gmail.com
+  db:
+    image: bitnami/mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=root_password
+      - MARIADB_DATABASE=final
+      - MARIADB_USER=YAM428
+      - MARIADB_PASSWORD=63987064
+    volumes:
+      - db_data:/bitnami/mariadb
+  webserver:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - drupal_data:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  certificate:
+    image: certbot
+    volumes:
+      - ./certbot:/etc/letsencrypt
+    command: certonly --webroot --webroot-path=/etc/letsencrypt --email sayinberke34@gmail.com --agree-tos --no-eff-email -d sayinberke.me
+volumes:
+  drupal_data:
+  db_data:
