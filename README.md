@@ -64,7 +64,7 @@ volumes:
 - environment: Sets environment variables for configuring the MariaDB container, including the root password, database name, user, and password.
 - volumes: Mounts a volume named db_data to the /bitnami/mariadb directory in the container.
 
-#### Nginx Service (webserver):
+#### Nginx Service (webserver):
 
 - image: Specifies the Docker image for the Nginx service, simply using the nginx image.
 - ports: Maps the container's port 80 to port 8080 on the host machine.
